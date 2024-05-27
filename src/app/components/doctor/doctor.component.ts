@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-doctor',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.css'
 })
@@ -23,6 +23,34 @@ export class DoctorComponent {
   showAppointmentList: boolean = false
 
   constructor(private patientService: PatientService, private doctorService: DoctorService, private appointmentService: AppointmentService) { }
+  createAppointment(appointmentForm: NgForm) {
+    const date = appointmentForm.value.date;
+    const time = appointmentForm.value.time;
+    const combinedDateTime = new Date(`${date}T${time}:00`);
+    const formattedDate = combinedDateTime.toISOString();
+
+    const newAppointment: IAppointment = {
+      appointmentId: 0,
+      doctorId: appointmentForm.value.doctorId,
+      date: formattedDate,
+      time: time, // Añadir esta línea
+      surgery: appointmentForm.value.surgery,
+      diagnostic: appointmentForm.value.diagnostic
+    };
+
+    this.appointmentService.createAppointment(newAppointment).subscribe(
+      (response) => {
+        console.log('Cita creada:', response);
+        this.loadAllAppointments();
+        appointmentForm.resetForm();
+      },
+      (error) => {
+        console.error('Error al crear cita:', error);
+      }
+    );
+  }
+  
+  
   // Método para actualizar cita
   updateAppointment(updateForm: NgForm) {
     if (updateForm.invalid || !this.appointment) {
