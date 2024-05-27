@@ -27,7 +27,7 @@ export class AdministratorComponent implements OnInit {
   appointments: IAppointment[] = [];
   showAppointmentList: boolean = false;
 
-  constructor(private patientService: PatientService , private doctorService: DoctorService ,private appointmentService: AppointmentService ) {}
+  constructor(private patientService: PatientService, private doctorService: DoctorService, private appointmentService: AppointmentService) { }
 
   ngOnInit() {
     this.loadAllDoctors();
@@ -44,7 +44,6 @@ export class AdministratorComponent implements OnInit {
       rh: patientForm.value.rh,
       email: patientForm.value.email,
       password: patientForm.value.password,
-  
     };
 
     this.patientService.createPatient(newPatient).subscribe(
@@ -64,7 +63,6 @@ export class AdministratorComponent implements OnInit {
     if (updateForm.invalid || !this.patient) {
       return;
     }
-
     const updatedPatient: IPatient = {
       ...this.patient,
       ...updateForm.value
@@ -82,7 +80,6 @@ export class AdministratorComponent implements OnInit {
     );
   }
 
-  // Método para eliminar paciente
   deletePatient(id: number) {
     this.patientService.deletePatient(id).subscribe(
       () => {
@@ -95,7 +92,6 @@ export class AdministratorComponent implements OnInit {
     );
   }
 
-  // Método para cargar todos los pacientes
   loadAllPatients() {
     console.log('Loading all patients');
     this.patientService.getAllPatients().subscribe(
@@ -109,7 +105,6 @@ export class AdministratorComponent implements OnInit {
     );
   }
 
-  // Método para alternar la lista de pacientes
   togglePatientList() {
     this.showPatientList = !this.showPatientList;
     if (this.showPatientList) {
@@ -117,7 +112,6 @@ export class AdministratorComponent implements OnInit {
     }
   }
 
-  // Método para editar paciente
   editPatient(patient: IPatient) {
     this.patient = patient;
   }
@@ -130,6 +124,7 @@ export class AdministratorComponent implements OnInit {
       specialization: doctorForm.value.specialization,
       email: doctorForm.value.email,
       password: doctorForm.value.password
+
     };
 
     this.doctorService.createDoctor(newDoctor).subscribe(
@@ -207,12 +202,17 @@ export class AdministratorComponent implements OnInit {
     this.doctor = doctor;
   }
 
-  // Método para crear cita
   createAppointment(appointmentForm: NgForm) {
+    const date = appointmentForm.value.date;
+    const time = appointmentForm.value.time;
+    const combinedDateTime = new Date(`${date}T${time}:00`);
+    const formattedDate = combinedDateTime.toISOString();
+
     const newAppointment: IAppointment = {
       appointmentId: 0,
       doctorId: appointmentForm.value.doctorId,
-      date: appointmentForm.value.date,
+      date: formattedDate,
+      time: time, // Añadir esta línea
       surgery: appointmentForm.value.surgery,
       diagnostic: appointmentForm.value.diagnostic
     };
@@ -234,12 +234,21 @@ export class AdministratorComponent implements OnInit {
     if (updateForm.invalid || !this.appointment) {
       return;
     }
-
+  
+    const date = updateForm.value.date;
+    const time = updateForm.value.time;
+    const combinedDateTime = new Date(`${date}T${time}:00`);
+    const formattedDate = combinedDateTime.toISOString();
+  
     const updatedAppointment: IAppointment = {
-      ...this.appointment,
-      ...updateForm.value
+      appointmentId: this.appointment.appointmentId, // Usar el ID actual de la cita
+      doctorId: updateForm.value.doctorId, // Solo el ID del doctor
+      date: formattedDate,
+      time: time, // Añadir esta línea
+      surgery: updateForm.value.surgery,
+      diagnostic: updateForm.value.diagnostic
     };
-
+  
     this.appointmentService.updateAppointment(updatedAppointment).subscribe(
       () => {
         console.log('Cita actualizada');
@@ -248,29 +257,18 @@ export class AdministratorComponent implements OnInit {
       },
       (error) => {
         console.error('Error al actualizar cita:', error);
+        console.error("OBJETOOOOO", updatedAppointment);
+        console.error(this.appointment?.doctorId);
       }
     );
   }
+  
 
-  // Método para eliminar cita
-  deleteAppointment(id: number) {
-    this.appointmentService.deleteAppointment(id).subscribe(
-      () => {
-        console.log('Cita eliminada');
-        this.loadAllAppointments();
-      },
-      (error) => {
-        console.error('Error al eliminar cita:', error);
-      }
-    );
-  }
+  // Otros métodos (createPatient, updatePatient, createDoctor, updateDoctor, etc.) no cambian.
 
-  // Método para cargar todas las citas
   loadAllAppointments() {
-    console.log('Loading all appointments');
     this.appointmentService.getAllAppointments().subscribe(
       (appointments) => {
-        console.log('Citas cargadas:', appointments);
         this.appointments = appointments;
       },
       (error) => {
@@ -279,7 +277,6 @@ export class AdministratorComponent implements OnInit {
     );
   }
 
-  // Método para alternar la lista de citas
   toggleAppointmentList() {
     this.showAppointmentList = !this.showAppointmentList;
     if (this.showAppointmentList) {
@@ -287,8 +284,22 @@ export class AdministratorComponent implements OnInit {
     }
   }
 
-  // Método para editar cita
   editAppointment(appointment: IAppointment) {
     this.appointment = appointment;
   }
+    // Método para eliminar cita
+    deleteAppointment(id: number) {
+      this.appointmentService.deleteAppointment(id).subscribe(
+        () => {
+          console.log('Cita eliminada');
+          this.loadAllAppointments();
+        },
+        (error) => {
+          console.error('Error al eliminar cita:', error);
+        }
+      );
+    }
+    
 }
+
+

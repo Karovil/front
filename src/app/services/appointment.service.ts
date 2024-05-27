@@ -7,7 +7,7 @@ import { IAppointment } from '../interfaces/IAppointment';
   providedIn: 'root'
 })
 export class AppointmentService {
-  private apiUrl = 'http://localhost:5044/api/Patient';
+  private apiUrl = 'http://localhost:5044/api/Appointment';
 
   constructor(private http: HttpClient) {}
 

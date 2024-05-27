@@ -5,6 +5,7 @@ export interface IAppointment {
   doctorId: IDoctor;
   patientId?: IPatient;
   date: string;
+  time: string; // Añadir esta línea
   surgery: string;
   diagnostic: string;
 }
