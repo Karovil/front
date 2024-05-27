@@ -8,6 +8,7 @@ import { IPatient } from '../interfaces/IPatient';
 })
 export class PatientService {
   private apiUrl = 'http://localhost:5044/api/Patient';
+  private loggedInUser: any;
 
   constructor(private http: HttpClient) {}
 
@@ -35,4 +36,12 @@ export class PatientService {
     console.log('Fetching patient by id:', patientId);
     return this.http.get<IPatient>(`${this.apiUrl}/GetById?patientId=${patientId}`);
   }
+  setLoggedInUser(user: any): void {
+    this.loggedInUser = user;
+  }
+
+  getLoggedInUser(): any {
+    return this.loggedInUser;
+  }
 }
+
