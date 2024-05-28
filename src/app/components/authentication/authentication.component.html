@@ -1,10 +1,24 @@
-<form (submit)="login()">
-    <label>Email:</label>
-    <input type="email" [(ngModel)]="email" name="email" required>
-  
-    <label>Password:</label>
-    <input type="password" [(ngModel)]="password" name="password" required>
-  
-    <button type="submit">Login</button>
-  </form>
-  
+<div class="container">
+  <div class="login-container">
+    <div class="login">
+      <h2 class="login-header">Iniciar sesión en el Hospital Grey Sloan Memorial</h2>
+      <form (ngSubmit)="login()">
+        <div class="form-group">
+          <label for="username">Correo electrónico:</label>
+          <input type="email" id="username" [(ngModel)]="email" name="username" required placeholder="example@example.com">
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña:</label>
+          <input type="password" id="password" [(ngModel)]="password" name="password" required>
+        </div>
+        <button type="submit" class="btn-login">Iniciar sesión</button>
+     
+      </form>
+    </div>
+    <div class="info-box">
+      <p>Hospital Grey Sloan Memorial</p>
+      <p>“Un hospital de vanguardia, orientado a la investigación con un Centro de Trauma Nivel I”</p>
+      <p>El Hospital Grey Sloan Memorial es un Centro de Trauma Nivel I y un hospital de enseñanza en Seattle, Washington. Anteriormente conocido como Hospital Seattle Grace Mercy West. Fue inaugurado en 2013, y se destaca porque sus dueños y junta son únicamente de doctores.</p>
+    </div>
+  </div>
+</div>

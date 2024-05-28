@@ -4,10 +4,12 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { PatientService } from '../../services/patient.service';
 import { DoctorService } from '../../services/doctor.service';
 import { AppointmentService } from '../../services/appointment.service';
+import { AuthenticationService } from '../../services/authentication.service';
 import { IPatient } from '../../interfaces/IPatient';
 import { IDoctor } from '../../interfaces/IDoctor';
 import { IAppointment } from '../../interfaces/IAppointment';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-administrator',
@@ -27,12 +29,16 @@ export class AdministratorComponent implements OnInit {
   appointments: IAppointment[] = [];
   showAppointmentList: boolean = false;
 
-  constructor(private patientService: PatientService, private doctorService: DoctorService, private appointmentService: AppointmentService) { }
+  constructor(private patientService: PatientService, private doctorService: DoctorService, private appointmentService: AppointmentService , private authService: AuthenticationService , private router: Router) { }
 
   ngOnInit() {
     this.loadAllDoctors();
     this.loadAllPatients();
     this.loadAllAppointments();
+  }
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/authentication']);
   }
 
   // Método para crear paciente

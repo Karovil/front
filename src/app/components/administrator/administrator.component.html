@@ -1,70 +1,72 @@
-<!-- administrator.component.html -->
-<div>
-  <h2>Administrador</h2>
-
+<div class="admin-container">
+  <header>
+    <h2>Administrador</h2>
+    
+    <button (click)="logout()" class="btn-logout">Cerrar sesión</button>
+  </header>
   <!-- Formulario para crear paciente -->
   <h3>Crear paciente</h3>
   <form #patientForm="ngForm" (ngSubmit)="createPatient(patientForm)">
-    <div>
+    <div class="form-group">
       <label for="name">Nombre:</label>
       <input type="text" id="name" name="name" ngModel required>
     </div>
-    <div>
+    <div class="form-group">
       <label for="age">Edad:</label>
       <input type="number" id="age" name="age" ngModel required>
     </div>
-    <div>
+    <div class="form-group">
       <label for="rh">Tipo de RH:</label>
       <input type="text" id="rh" name="rh" ngModel pattern="[A-Za-z]{2}[+-]{1}" title="Formato RH válido (por ejemplo: AB+)" required>
     </div>
-    <div>
+    <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" ngModel required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
     </div>
-    <div>
+    <div class="form-group">
       <label for="password">Contraseña:</label>
       <input type="password" id="password" name="password" ngModel required>
     </div>
-    <button type="submit">Crear Paciente</button>
+    <button type="submit" class="btn">Crear Paciente</button>
   </form>
 
   <!-- Actualizar paciente -->
   <div *ngIf="patient">
     <h3>Actualizar Paciente</h3>
     <form #updateForm="ngForm" (ngSubmit)="updatePatient(updateForm)">
-      <div>
+      <div class="form-group">
         <label for="updateName">Nombre:</label>
         <input type="text" id="updateName" name="name" [(ngModel)]="patient.name" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updateAge">Edad:</label>
         <input type="number" id="updateAge" name="age" [(ngModel)]="patient.age" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updateRh">Tipo de RH:</label>
         <input type="text" id="updateRh" name="rh" [(ngModel)]="patient.rh" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updateEmail">Email:</label>
         <input type="email" id="updateEmail" name="email" [(ngModel)]="patient.email" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updatePassword">Contraseña:</label>
         <input type="password" id="updatePassword" name="password" [(ngModel)]="patient.password" required>
       </div>
-      <button type="submit">Actualizar Paciente</button>
+      <button type="submit" class="btn">Actualizar Paciente</button>
     </form>
   </div>
 
   <!-- Ver todos los pacientes -->
-  <button (click)="togglePatientList()">Ver Todos los Pacientes</button>
+  <button (click)="togglePatientList()" class="btn">Ver Todos los Pacientes</button>
   <div *ngIf="showPatientList && patients.length > 0">
     <h4>Lista de Pacientes</h4>
     <ul>
       <li *ngFor="let patient of patients">
         ID: {{ patient.patientId }} Nombre: {{ patient.name }}  Email: {{ patient.email }}
-        <button (click)="editPatient(patient)">Editar</button>
-        <button (click)="deletePatient(patient.patientId)">Eliminar</button>
+        <button (click)="editPatient(patient)" class="btn-secondary">Editar</button>
+        <button (click)="deletePatient(patient.patientId)" class="btn-secondary">Eliminar</button>
       </li>
     </ul>
   </div>
@@ -72,51 +74,51 @@
   <!-- Crear doctor -->
   <h3>Crear doctor</h3>
   <form #doctorForm="ngForm" (ngSubmit)="createDoctor(doctorForm)">
-    <div>
+    <div class="form-group">
       <label for="name">Nombre:</label>
       <input type="text" id="name" name="name" ngModel required>
     </div>
-    <div>
+    <div class="form-group">
       <label for="specialization">Especialización:</label>
       <input type="text" id="specialization" name="specialization" ngModel required>
     </div>
-    <div>
+    <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" id="email" name="email" ngModel required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
     </div>
-    <div>
+    <div class="form-group">
       <label for="password">Contraseña:</label>
       <input type="password" id="password" name="password" ngModel required>
     </div>
-    <button type="submit">Crear doctor</button>
+    <button type="submit" class="btn">Crear doctor</button>
   </form>
 
   <!-- Actualizar doctor -->
   <div *ngIf="doctor">
     <h3>Actualizar Doctor</h3>
     <form #updateForm="ngForm" (ngSubmit)="updateDoctor(updateForm)">
-      <div>
+      <div class="form-group">
         <label for="updateName">Nombre:</label>
         <input type="text" id="updateName" name="name" [(ngModel)]="doctor.name" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updateSpecialization">Especialización:</label>
         <input type="text" id="updateSpecialization" name="specialization" [(ngModel)]="doctor.specialization" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updateEmail">Email:</label>
         <input type="email" id="updateEmail" name="email" [(ngModel)]="doctor.email" required>
       </div>
-      <div>
+      <div class="form-group">
         <label for="updatePassword">Contraseña:</label>
         <input type="password" id="updatePassword" name="password" [(ngModel)]="doctor.password" required>
       </div>
-      <button type="submit">Actualizar Doctor</button>
+      <button type="submit" class="btn">Actualizar Doctor</button>
     </form>
   </div>
 
   <!-- Ver todos los doctores -->
-  <button (click)="toggleDoctorList()">Ver Todos los Doctores</button>
+  <button (click)="toggleDoctorList()" class="btn">Ver Todos los Doctores</button>
   
   <div *ngIf="showDoctorList && doctors.length > 0">
     <h4>Lista de Doctores</h4>
@@ -130,83 +132,80 @@
           </li>
         </ul>
         <!-- Fin del código para mostrar las citas del doctor -->
-        <button (click)="editDoctor(doctor)">Editar</button>
-        <button (click)="deleteDoctor(doctor.doctorId)">Eliminar</button>
-       
+        <button (click)="editDoctor(doctor)" class="btn-secondary">Editar</button>
+        <button (click)="deleteDoctor(doctor.doctorId)" class="btn-secondary">Eliminar</button>
       </li>
     </ul>
   </div>
 
   <!-- Crear cita -->
   <h3>Crear Cita</h3>
-<form #appointmentForm="ngForm" (ngSubmit)="createAppointment(appointmentForm)">
-  <div>
-    <label for="doctorId">Doctor:</label>
-    <select id="doctorId" name="doctorId" ngModel required>
-      <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">{{ doctor.doctorId }}</option>
-    </select>
-  </div>
-  <div>
-    <label for="date">Fecha:</label>
-    <input type="date" id="date" name="date" ngModel required>
-  </div>
-  <div>
-    <label for="time">Hora:</label>
-    <input type="time" id="time" name="time" ngModel required>
-  </div>
-  <div>
-    <label for="surgery">Cirugía:</label>
-    <input type="text" id="surgery" name="surgery" ngModel required>
-  </div>
-  <div>
-    <label for="diagnostic">Diagnóstico:</label>
-    <input type="text" id="diagnostic" name="diagnostic" ngModel required>
-  </div>
-  <button type="submit">Crear Cita</button>
-</form>
-
- <!-- Actualizar cita -->
- <div *ngIf="appointment">
-  <h3>Actualizar Cita</h3>
-  <form #updateForm="ngForm" (ngSubmit)="updateAppointment(updateForm)">
-    <div>
-      <label for="updateDoctorId">Doctor:</label>
-      <select id="updateDoctorId" name="doctorId" [(ngModel)]="appointment.doctorId" required>
-        <option *ngFor="let doctor of doctors" [ngValue]="doctor.doctorId">{{ doctor.doctorId }}</option>
+  <form #appointmentForm="ngForm" (ngSubmit)="createAppointment(appointmentForm)">
+    <div class="form-group">
+      <label for="doctorId">Doctor:</label>
+      <select id="doctorId" name="doctorId" ngModel required>
+        <option *ngFor="let doctor of doctors" [value]="doctor.doctorId">{{ doctor.doctorId }}</option>
       </select>
     </div>
-    <div>
-      <label for="updateDate">Fecha:</label>
-      <input type="date" id="updateDate" name="date" [(ngModel)]="appointment.date" required>
+    <div class="form-group">
+      <label for="date">Fecha:</label>
+      <input type="date" id="date" name="date" ngModel required>
     </div>
-    <div>
-      <label for="updateTime">Hora:</label>
-      <input type="time" id="updateTime" name="time" [(ngModel)]="appointment.time" required>
+    <div class="form-group">
+      <label for="time">Hora:</label>
+      <input type="time" id="time" name="time" ngModel required>
     </div>
-    <div>
-      <label for="updateSurgery">Cirugía:</label>
-      <input type="text" id="updateSurgery" name="surgery" [(ngModel)]="appointment.surgery" required>
+    <div class="form-group">
+      <label for="surgery">Cirugía:</label>
+      <input type="text" id="surgery" name="surgery" ngModel required>
     </div>
-    <div>
-      <label for="updateDiagnostic">Diagnóstico:</label>
-      <input type="text" id="updateDiagnostic" name="diagnostic" [(ngModel)]="appointment.diagnostic" required>
+    <div class="form-group">
+      <label for="diagnostic">Diagnóstico:</label>
+      <input type="text" id="diagnostic" name="diagnostic" ngModel required>
     </div>
-    <button type="submit">Actualizar Cita</button>
+    <button type="submit" class="btn">Crear Cita</button>
   </form>
-</div>
 
+  <!-- Actualizar cita -->
+  <div *ngIf="appointment">
+    <h3>Actualizar Cita</h3>
+    <form #updateForm="ngForm" (ngSubmit)="updateAppointment(updateForm)">
+      <div class="form-group">
+        <label for="updateDoctorId">Doctor:</label>
+        <select id="updateDoctorId" name="doctorId" [(ngModel)]="appointment.doctorId" required>
+          <option *ngFor="let doctor of doctors" [ngValue]="doctor.doctorId">{{ doctor.doctorId }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="updateDate">Fecha:</label>
+        <input type="date" id="updateDate" name="date" [(ngModel)]="appointment.date" required>
+      </div>
+      <div class="form-group">
+        <label for="updateTime">Hora:</label>
+        <input type="time" id="updateTime" name="time" [(ngModel)]="appointment.time" required>
+      </div>
+      <div class="form-group">
+        <label for="updateSurgery">Cirugía:</label>
+        <input type="text" id="updateSurgery" name="surgery" [(ngModel)]="appointment.surgery" required>
+      </div>
+      <div class="form-group">
+        <label for="updateDiagnostic">Diagnóstico:</label>
+        <input type="text" id="updateDiagnostic" name="diagnostic" [(ngModel)]="appointment.diagnostic" required>
+      </div>
+      <button type="submit" class="btn">Actualizar Cita</button>
+    </form>
+  </div>
 
-
-<!-- Ver todas las citas -->
-<button (click)="toggleAppointmentList()">Ver Todas las Citas</button>
-<div *ngIf="showAppointmentList && appointments.length ">
-  <h4>Lista de Citas</h4>
-  <ul>
-    <li *ngFor="let appointment of appointments">
-       
-      Fecha: {{ appointment.date }} Cirugía: {{ appointment.surgery }} Diagnóstico: {{ appointment.diagnostic }} 
-      <button (click)="editAppointment(appointment)">Editar</button>
-      <button (click)="deleteAppointment(appointment.appointmentId)">Eliminar</button>
-    </li>
-  </ul>
+  <!-- Ver todas las citas -->
+  <button (click)="toggleAppointmentList()" class="btn">Ver Todas las Citas</button>
+  <div *ngIf="showAppointmentList && appointments.length">
+    <h4>Lista de Citas</h4>
+    <ul>
+      <li *ngFor="let appointment of appointments">
+        Fecha: {{ appointment.date }} Cirugía: {{ appointment.surgery }} Diagnóstico: {{ appointment.diagnostic }} 
+        <button (click)="editAppointment(appointment)" class="btn-secondary">Editar</button>
+        <button (click)="deleteAppointment(appointment.appointmentId)" class="btn-secondary">Eliminar</button>
+      </li>
+    </ul>
+  </div>
 </div>

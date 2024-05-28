@@ -16,4 +16,8 @@ export class AuthenticationService {
   authenticate(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/Authenticate`, { email, password });
   }
+  logout(): void {
+    // Aquí puedes agregar lógica para limpiar el almacenamiento local o cualquier otra tarea de limpieza
+    localStorage.removeItem('authToken');
+  }
 }

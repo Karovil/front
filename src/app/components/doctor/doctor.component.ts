@@ -21,6 +21,7 @@ export class DoctorComponent implements OnInit {
   appointments: IAppointment[] = [];
   selectedAppointment: IAppointment | null = null; // Nueva propiedad para almacenar la cita seleccionada
   doctors: IDoctor[] = [];
+  showAppointments: boolean = false; // Para controlar el despliegue de citas
 
   constructor(
     private appointmentService: AppointmentService,
@@ -139,5 +140,14 @@ export class DoctorComponent implements OnInit {
 
   editAppointment(appointment: IAppointment) {
     this.selectedAppointment = appointment; // Al hacer clic en el botón de editar, asignamos la cita seleccionada
+  }
+
+  toggleAppointments(): void {
+    this.showAppointments = !this.showAppointments;
+  }
+
+  logout(): void {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/authentication']);
   }
 }
