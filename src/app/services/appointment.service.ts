@@ -35,4 +35,12 @@ export class AppointmentService {
     return this.http.get<IAppointment[]>(`${this.apiUrl}/GetByAge?age=${age}`);
   }
 
+  getFreeAppointments(): Observable<IAppointment[]> {
+    return this.http.get<IAppointment[]>(`${this.apiUrl}/GetFree`);
+  }
+
+  getAppointmentsByPatient(patientId: number): Observable<IAppointment[]> {
+    return this.http.get<IAppointment[]>(`${this.apiUrl}/GetByPatient?patientId=${patientId}`);
+  }
+
 }

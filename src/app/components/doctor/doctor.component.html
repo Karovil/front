@@ -1,3 +1,4 @@
+<!-- Formulario de creación de cita -->
 <h3>Crear Cita</h3>
 <form #appointmentForm="ngForm" (ngSubmit)="createAppointment(appointmentForm)">
   <div>
@@ -18,3 +19,41 @@
   </div>
   <button type="submit">Crear Cita</button>
 </form>
+
+<h3>Mis Citas</h3>
+<ul *ngIf="appointments.length > 0; else noAppointments">
+  <li *ngFor="let appointment of appointments">
+    <strong>Fecha:</strong> {{ appointment.date }}<br>
+    <strong>Hora:</strong> {{ appointment.time }}<br>
+    <strong>Cirugía:</strong> {{ appointment.surgery }}<br>
+    <strong>Diagnóstico:</strong> {{ appointment.diagnostic }}<br>
+    <button (click)="deleteAppointment(appointment.appointmentId)">Eliminar</button>
+    <button (click)="editAppointment(appointment)">Editar</button><br>
+    <!-- Mostrar formulario de edición si la cita seleccionada es igual a esta cita -->
+    <div *ngIf="selectedAppointment === appointment">
+      <form #editForm="ngForm" (ngSubmit)="updateAppointment(editForm)">
+        <div>
+          <label for="editDate">Fecha:</label>
+          <input type="date" id="editDate" name="editDate" [(ngModel)]="selectedAppointment.date" required>
+        </div>
+        <div>
+          <label for="editTime">Hora:</label>
+          <input type="time" id="editTime" name="editTime" [(ngModel)]="selectedAppointment.time" required>
+        </div>
+        <div>
+          <label for="editSurgery">Cirugía:</label>
+          <input type="text" id="editSurgery" name="editSurgery" [(ngModel)]="selectedAppointment.surgery" required>
+        </div>
+        <div>
+          <label for="editDiagnostic">Diagnóstico:</label>
+          <input type="text" id="editDiagnostic" name="editDiagnostic" [(ngModel)]="selectedAppointment.diagnostic" required>
+        </div>
+        <button type="submit">Actualizar</button>
+      </form>
+    </div>
+    <hr>
+  </li>
+</ul>
+<ng-template #noAppointments>
+  <p>No hay citas disponibles.</p>
+</ng-template>

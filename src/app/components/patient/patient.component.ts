@@ -1,33 +1,85 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { PatientService } from '../../services/patient.service';
-import { DoctorService } from '../../services/doctor.service';
-import { AppointmentService } from '../../services/appointment.service';
-import { IPatient } from '../../interfaces/IPatient';
-import { IDoctor } from '../../interfaces/IDoctor';
 import { IAppointment } from '../../interfaces/IAppointment';
-import { CommonModule } from '@angular/common';
+import { PatientService } from '../../services/patient.service';
+import { AppointmentService } from '../../services/appointment.service';
 
 @Component({
   selector: 'app-patient',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './patient.component.html',
-  styleUrl: './patient.component.css'
+  styleUrls: ['./patient.component.css']
 })
-export class PatientComponent {
-  patient: IPatient | null = null;
-  patients: IPatient[] = [];
-  showPatientList: boolean = false;
-  doctor: IDoctor | null = null;
-  doctors: IDoctor[] = [];
-  showDoctorList: boolean = false;
-  appointment: IAppointment | null = null;
-  appointments: IAppointment[] = [];
-  showAppointmentList: boolean = false;
+export class PatientComponent implements OnInit {
+  availableAppointments: IAppointment[] = [];
+  myAppointments: IAppointment[] = [];
+  loggedInPatientId: number | undefined;
 
-  constructor(private patientService: PatientService, private doctorService: DoctorService, private appointmentService: AppointmentService) { }
+  constructor(
+    private patientService: PatientService,
+    private appointmentService: AppointmentService
+  ) { }
 
-  
+  ngOnInit(): void {
+    const loggedInPatient = this.patientService.getLoggedInUser();
+    if (loggedInPatient) {
+      this.loggedInPatientId = loggedInPatient.patientId;
+      this.loadAvailableAppointments();
+      this.loadMyAppointments();
+    }
+  }
 
+  loadAvailableAppointments(): void {
+    if (this.loggedInPatientId) {
+      this.appointmentService.getAppointmentsByAge(this.loggedInPatientId).subscribe(
+        appointments => {
+          this.availableAppointments = appointments.filter(appointment => !appointment.patientId);
+        },
+        error => {
+          console.error('Error fetching available appointments:', error);
+        }
+      );
+    }
+  }
+
+  loadMyAppointments(): void {
+    if (this.loggedInPatientId) {
+      this.appointmentService.getAppointmentsByAge(this.loggedInPatientId).subscribe(
+        appointments => {
+          this.myAppointments = appointments.filter(appointment => appointment.patientId === this.loggedInPatientId);
+        },
+        error => {
+          console.error('Error fetching patient appointments:', error);
+        }
+      );
+    }
+  }
+
+  assignAppointment(appointment: IAppointment): void {
+    if (this.loggedInPatientId) {
+      appointment.patientId = this.loggedInPatientId;
+      this.appointmentService.updateAppointment(appointment).subscribe(
+        () => {
+          console.log('Appointment assigned successfully');
+          this.loadAvailableAppointments();
+          this.loadMyAppointments();
+        },
+        error => {
+          console.error('Error assigning appointment:', error);
+        }
+      );
+    }
+  }
+
+  cancelAppointment(appointment: IAppointment): void {
+    appointment.patientId = undefined;
+    this.appointmentService.updateAppointment(appointment).subscribe(
+      () => {
+        console.log('Appointment cancelled successfully');
+        this.loadAvailableAppointments();
+        this.loadMyAppointments();
+      },
+      error => {
+        console.error('Error cancelling appointment:', error);
+      }
+    );
+  }
 }

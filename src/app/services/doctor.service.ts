@@ -27,8 +27,8 @@ export class DoctorService {
     return this.http.get<IDoctor[]>(`${this.apiUrl}/GetAll`);
   }
 
-  getByIdDoctor(doctorId: number):Observable<IDoctor>{
-    return this.http.get<IDoctor>(`${this.apiUrl}/GetById?doctorId=${doctorId}`);
-  }
+    getByIdDoctor(doctorId: number):Observable<IDoctor>{
+      return this.http.get<IDoctor>(`${this.apiUrl}/GetById?doctorId=${doctorId}`);
+    }
 
 }

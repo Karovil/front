@@ -1,0 +1,19 @@
+<div>
+    <h2>Mis citas disponibles</h2>
+    <ul>
+      <li *ngFor="let appointment of availableAppointments">
+        <span>{{ appointment.date }} - {{ appointment.time }}</span>
+        <button (click)="assignAppointment(appointment)">Asignar cita</button>
+      </li>
+    </ul>
+  </div>
+  
+  <div>
+    <h2>Mis citas asignadas</h2>
+    <ul>
+      <li *ngFor="let appointment of myAppointments">
+        <span>{{ appointment.date }} - {{ appointment.time }}</span>
+        <button (click)="cancelAppointment(appointment)">Cancelar cita</button>
+      </li>
+    </ul>
+  </div>
